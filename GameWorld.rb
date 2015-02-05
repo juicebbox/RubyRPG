@@ -9,11 +9,11 @@ module GameWorld
       def initialize(coordinate_x,coordinate_y, terrain='#')
         @coordinate_x = coordinate_x
         @coordinate_y = coordinate_y
-        @terrain = set_terrain(terrain)
+        set_terrain(terrain)
       end  
       #this method tells if the cell can be crossed by creature
       def is_crossable?
-        @terrain == 'mountain'? false : true
+        @terrain == '!'? false : true
       end
       
       def terrain_type
@@ -21,13 +21,15 @@ module GameWorld
       end
       def set_terrain(terrain)
         case terrain
-          switch '#' then 'normal'
-          switch '!' then 'mountain'
-          switch '=' then 'river'
+          when '#' then @terrain = 'normal'
+          when '!' then @terrain = 'mountain'
+          when '=' then @terrain = 'river'
+        end
+      end
       
     end
-
-    class Field
+    # TO DO: IMPLEMENT [] and each methods
+     class Field
       # TO DO
       # implement field as matrix of cells
       attr_accessor :field
@@ -35,7 +37,6 @@ module GameWorld
       def initialize(field)
         @field = divide_field_to_cells(field)
       end
-      # TO DO: Fix dividing the string to cells! 
       # TO DO: Implement method draw_map
       def divide_field_to_cells(field)
         new_field = []
@@ -49,7 +50,6 @@ module GameWorld
             counter[1] = (counter[1] % 3) + 1
           end
         end
-        puts field[2,2]
         new_field
       end
       
