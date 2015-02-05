@@ -1,10 +1,9 @@
 module GameWorld
   module BattleGround
     class Cell
-      # TO DO
-      # implement cell logic here
-      # terrain is used later to give penalty on movement of the creatures
+      # Cell terrain is used later to give penalty on movement of the creatures
       # normal terrain means no penalty.
+      # TO DO: Implement method draw_map
       attr_accessor :coordinate_x, :coordinate_x, :terrain
       def initialize(coordinate_x,coordinate_y, terrain='#')
         @coordinate_x = coordinate_x
@@ -13,7 +12,7 @@ module GameWorld
       end  
       #this method tells if the cell can be crossed by creature
       def is_crossable?
-        @terrain == '!'? false : true
+        @terrain == 'mountain' ? false : true
       end
       
       def terrain_type
@@ -27,6 +26,9 @@ module GameWorld
         end
       end
       
+      def get_coordinates
+        [@coordinate_y, @coordinate_x]
+      end
     end
     # TO DO: IMPLEMENT [] and each methods
      class Field
@@ -52,11 +54,16 @@ module GameWorld
         end
         new_field
       end
+      def each(&block)
+        @field.each(&block)
+      end
       
       def info
+        info=[]
         @field.each do |cell|
-          cell.is_crossable?
+          info << cell.is_crossable?
         end
+        info
       end
     end
   end
