@@ -6,10 +6,10 @@ module GameWorld
       # terrain is used later to give penalty on movement of the creatures
       # normal terrain means no penalty.
       attr_accessor :coordinate_x, :coordinate_x, :terrain
-      def initialize(coordinate_x,coordinate_y, terrain='normal')
+      def initialize(coordinate_x,coordinate_y, terrain='#')
         @coordinate_x = coordinate_x
         @coordinate_y = coordinate_y
-        @terrain = terrain
+        @terrain = set_terrain(terrain)
       end  
       #this method tells if the cell can be crossed by creature
       def is_crossable?
@@ -19,6 +19,12 @@ module GameWorld
       def terrain_type
         @terrain
       end
+      def set_terrain(terrain)
+        case terrain
+          switch '#' then 'normal'
+          switch '!' then 'mountain'
+          switch '=' then 'river'
+      
     end
 
     class Field
@@ -34,13 +40,16 @@ module GameWorld
       def divide_field_to_cells(field)
         new_field = []
         field = field.lines.map(&:chomp)
+        counter = [1,0]
         field.each do |row|
-          row.each do |cell|
-            new_field << Cells.new(row, cell) if cell == '#'
-            new_field << Cells.new(row, cell, 'mountain') if cell == '!'
-            new_field << Cells.new(row, cell, 'water') if cell == '='
+            row = row.split(',')
+            counter[0] = (counter[0] % 3) + 1
+            row.each do |cell|
+            new_field << GameWorld::BattleGround::Cell.new(counter[0],counter[1], cell)
+            counter[1] = (counter[1] % 3) + 1
           end
         end
+        puts field[2,2]
         new_field
       end
       
